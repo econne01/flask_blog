@@ -32,8 +32,8 @@ def index():
     if search_query:
         query = Entry.search(search_query)
     else:
-        query = Entry.public().order_by(Entry.timestamp.desc())
-    return object_list('index.html', query, search=search_query)
+        query = Entry.public().order_by(Entry.last_mod_date.desc())
+    return object_list('index.html', query)
 
 @login_required
 def drafts():
@@ -43,7 +43,7 @@ def drafts():
 
 @login_required
 def create():
-    """Create or Edit blog Entry"""
+    """Create new blog Entry"""
     if request.method == 'POST':
         if request.form.get('title') and request.form.get('content'):
             entry = Entry.create(
@@ -62,6 +62,7 @@ def create():
 
 @login_required
 def edit(slug):
+    """Edit existing blog Entry"""
     entry = get_object_or_404(Entry, Entry.slug == slug)
     if request.method == 'POST':
         if request.form.get('title'):

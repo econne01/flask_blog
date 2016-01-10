@@ -9,6 +9,7 @@ app.add_url_rule('/', 'index', views.index, methods=['GET'])
 app.add_url_rule('/create', 'create', views.create, methods=['GET', 'POST'])
 app.add_url_rule('/drafts', 'drafts', views.drafts, methods=['GET'])
 app.add_url_rule('/<slug>', 'detail', views.detail, methods=['GET'])
+app.add_url_rule('/<slug>/edit', 'edit', views.edit, methods=['GET', 'POST'])
 
 
 def main():

@@ -12,7 +12,7 @@ from peewee import (BooleanField, CharField, DateTimeField,
                     IntegerField, TextField)
 from playhouse.sqlite_ext import FTSModel
 
-from app import flask_db, database
+from app import app, flask_db, database
 
 
 oembed_providers = bootstrap_basic(OEmbedCache())
@@ -25,7 +25,7 @@ class Entry(flask_db.Model):
     content = TextField()
     published = BooleanField(index=True)
     last_mod_date = DateTimeField(default=datetime.datetime.now)
-    publish_date = DateTimeField(index=True)
+    publish_date = DateTimeField(index=True, default=datetime.datetime.now)
 
     @property
     def html_content(self):
