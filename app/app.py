@@ -4,12 +4,7 @@ import os
 import re
 import urllib
 
-from flask import (Flask, abort, flash, Markup, Response)
-from markdown import markdown
-from markdown.extensions.codehilite import CodeHiliteExtension
-from markdown.extensions.extra import ExtraExtension
-from micawber import bootstrap_basic, parse_html
-from micawber.cache import Cache as OEmbedCache
+from flask import (Flask, abort, flash, Response)
 from playhouse.flask_utils import FlaskDB
 from playhouse.sqlite_ext import FTSModel
 
@@ -28,7 +23,6 @@ app.config.from_object(__name__)
 flask_db = FlaskDB(app)
 database = flask_db.database
 
-oembed_providers = bootstrap_basic(OEmbedCache())
 
 @app.template_filter('clean_querystring')
 def clean_querystring(request_args, *keys_to_remove, **new_values):

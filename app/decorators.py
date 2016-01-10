@@ -1,9 +1,9 @@
 import functools
 from flask import (redirect, request, session, url_for)
-from app import app
 
 
 def login_required(func):
+    """If user is not logged in, redirect to login page"""
     @functools.wrap(func)
     def inner(*args, **kwargs):
         if session.get('logged_in'):
