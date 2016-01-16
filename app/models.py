@@ -60,12 +60,12 @@ class Entry(flask_db.Model):
         else:
             search = ' '.join(words)
 
-        return (FTSEntry
+        return (Entry
                 .select(
                     FTSEntry,
                     Entry,
                     FTSEntry.rank().alias('score'))
-                .join(Entry, on=(FTSEntry.entry_id == Entry.id).alias('entry'))
+                .join(FTSEntry, on=(FTSEntry.entry_id == Entry.id).alias('ftsentry'))
                 .where(
                     (Entry.published == True) &
                     (FTSEntry.match(search)))
