@@ -2,6 +2,7 @@ import functools
 
 from flask import (flash, redirect, render_template, request, session, url_for)
 from playhouse.flask_utils import object_list, get_object_or_404
+from werkzeug.exceptions import NotFound
 
 from app import app
 from decorators import login_required
@@ -33,7 +34,12 @@ def index():
         query = Entry.search(search_query)
     else:
         query = Entry.public().order_by(Entry.last_mod_date.desc())
-    return object_list('index.html', query)
+    try:
+        return object_list('index.html', query)
+    except NotFound as exc:
+        # peewee throws 404 `NotFound` Exception if no results found
+        # but we would rather show page with no results
+        return render_template('index.html', object_list=[])
 
 @login_required
 def drafts():
