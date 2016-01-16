@@ -9,7 +9,7 @@ from markdown.extensions.extra import ExtraExtension
 from micawber import bootstrap_basic, parse_html
 from micawber.cache import Cache as OEmbedCache
 from peewee import (BooleanField, CharField, DateTimeField,
-                    IntegerField, TextField)
+                    IntegerField, TextField, SQL)
 from playhouse.sqlite_ext import FTSModel
 
 from app import app, flask_db, database
