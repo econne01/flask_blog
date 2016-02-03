@@ -14,6 +14,8 @@
         {{ entry.title }}
       </a>
     </h3>
-    <p>Created {{ entry.last_mod_date.strftime('%m/%d/%Y at %G:%I%p') }}</p>
+    <p>Created {{ entry.last_mod_date.strftime('%m/%d/%Y at %H:%M %p') }}</p>
+  {% else %}
+    <p>No entries found!</p>
   {% endfor %}
 {% endblock %}
