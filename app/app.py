@@ -1,12 +1,9 @@
 """ Configuration for Flask app """
-import datetime
 import os
-import re
 import urllib
 
 from flask import (Flask, abort, flash, Response)
 from playhouse.flask_utils import FlaskDB
-from playhouse.sqlite_ext import FTSModel
 
 
 ADMIN_PASSWORD = 'secret'
@@ -22,6 +19,20 @@ app.config.from_object(__name__)
 
 flask_db = FlaskDB(app)
 database = flask_db.database
+
+from models import Entry, FTSEntry
+database.create_tables([Entry, FTSEntry], safe=True)
+
+
+# Setup routes
+import views
+app.add_url_rule('/login/', 'login', views.login, methods=['GET', 'POST'])
+app.add_url_rule('/logout/',  'logout', views.logout, methods=['GET', 'POST'])
+app.add_url_rule('/', 'index', views.index, methods=['GET'])
+app.add_url_rule('/create', 'create', views.create, methods=['GET', 'POST'])
+app.add_url_rule('/drafts', 'drafts', views.drafts, methods=['GET'])
+app.add_url_rule('/<slug>', 'detail', views.detail, methods=['GET'])
+app.add_url_rule('/<slug>/edit', 'edit', views.edit, methods=['GET', 'POST'])
 
 
 @app.template_filter('clean_querystring')
